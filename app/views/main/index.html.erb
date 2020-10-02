@@ -1,0 +1,42 @@
+<h1>Proyecto Twitter</h1>
+<hr>
+
+<% if user_signed_in? %>
+<h4>Escribir un tweet</h4>
+<%= form_tag create_tweet_path, method: :post do %>
+<%= text_area_tag 'content' %>
+<%= submit_tag 'Submit' %>
+<% end %>
+<hr>
+<% end %>
+
+<% if @tweets.count > 0 %>
+
+<% @tweets.each do |tweet| %>
+<div class="tweet" id="tweet-<%= tweet.id %>%">
+  <p><%= image_tag tweet.user.profile_img_url, class: 'user-thumb' %> <%= tweet.user.email %></p>
+  <div class="content">
+    <%= tweet.content %>
+  </div>
+  <% if !tweet.original.nil? %>
+    <p><em><%= link_to 'Ver tweet original', show_path(tweet: tweet.original.id)%></em></p>
+  <% end %>
+  <% if user_signed_in? %>
+  <p>
+    <% if @user_likes.include? tweet.id %>
+    <%= link_to 'Unike', unlike_tweet_path(tweet: tweet.id), method: :post %>
+    <% else %>
+    <%= link_to 'Like', like_tweet_path(tweet: tweet.id), method: :post %>
+    <% end %> |
+    <%= link_to 'Retweet', retweet_path(tweet: tweet.id), method: :post %>
+  </p>
+  <% end %>
+  <p><%= link_to (time_ago_in_words tweet.created_at), show_path(tweet: tweet.id) %> | <strong>Likes:</strong> <%= tweet.likes.count %> | <strong>Retweets:</strong> <%= tweet.retweets.blank? ? 0 : tweet.retweets %></p>
+</div>
+<hr>
+<% end %>
+<%= paginate @tweets %>
+
+<% else %>
+<p><em>No hay tweets</em></p>
+<% end %>

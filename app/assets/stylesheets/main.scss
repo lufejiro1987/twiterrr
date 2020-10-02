@@ -1,0 +1,16 @@
+// Place all the styles related to the Main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+.likes img {
+  display: inline-block;
+  margin-bottom: 10px;
+  max-height: 100px;
+}
+.user-thumb, .small-list {
+  max-height: 50px;
+  border-radius: 5px;
+  border: 2px solid white;
+  box-shadow: 0 0 5px black;
+  margin-right: 10px;
+}
